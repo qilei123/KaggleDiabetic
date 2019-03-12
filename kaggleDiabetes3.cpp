@@ -6,8 +6,8 @@
 int epoch=0;
 int cudaDevice=-1; //PCI bus ID, -1 for default GPU
 int batchSize=1;
-std::string dirName("Data/kaggleDiabeticRetinopathy/500_train/");
-std::string dirNameTest("Data/kaggleDiabeticRetinopathy/500_test/");
+std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/train_b/");
+std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/val_b");
 
 Picture* OpenCVPicture::distort(RNG& rng, batchType type) {
   OpenCVPicture* pic=new OpenCVPicture(*this);
@@ -52,13 +52,13 @@ Imagenet::Imagenet
 }
 
 int main() {
-  std::string baseName="Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabeticRetinopathy3";
+  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2";
   SpatiallySparseDataset trainSet=KDRTrainSet(dirName);
-  SpatiallySparseDataset validationSet=KDRValidationSet(dirName);
-  SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);
+  SpatiallySparseDataset validationSet=KDRValidationSet(dirNameTest);
+  //SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);
   trainSet.summary();
   validationSet.summary();
-  testSet.summary();
+  //testSet.summary();
   {
     Imagenet cnn(2,VLEAKYRELU,trainSet.nFeatures,trainSet.nClasses,cudaDevice);
 

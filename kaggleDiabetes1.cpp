@@ -6,8 +6,8 @@
 int epoch=0;
 int cudaDevice=-1; //PCI bus ID, -1 for default GPU
 int batchSize=5;
-std::string dirName("Data/kaggleDiabeticRetinopathy/300_train/");
-std::string dirNameTest("Data/kaggleDiabeticRetinopathy/300_test/");
+std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/train_b/");
+std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/val_b");
 
 Picture* OpenCVPicture::distort(RNG& rng, batchType type) {
   OpenCVPicture* pic=new OpenCVPicture(*this);
@@ -58,13 +58,13 @@ Imagenet::Imagenet
 }
 
 int main() {
-  std::string baseName="Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabeticRetinopathy1";
+  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2";
   SpatiallySparseDataset trainSet=KDRTrainSet(dirName);
-  SpatiallySparseDataset validationSet=KDRValidationSet(dirName);
-  SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);
+  SpatiallySparseDataset validationSet=KDRValidationSet(dirNameTest);
+  //SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);
   trainSet.summary();
   validationSet.summary();
-  testSet.summary();
+  //testSet.summary();
   {
     Imagenet cnn(2,VLEAKYRELU,trainSet.nFeatures,trainSet.nClasses,cudaDevice);
 
@@ -78,15 +78,15 @@ int main() {
     for (epoch++;epoch<=65;epoch++) {
       std::cout <<"epoch: " << epoch << std::endl;
       for (int i=0;i<3;++i) {
-        SpatiallySparseDataset trainSubset=trainSet.subset(12000);
+        SpatiallySparseDataset trainSubset=trainSet.subset(25000);
         cnn.processDataset(trainSubset, batchSize,0.003*exp(-epoch*0.05),0.999);
         cnn.saveWeights(baseName,epoch);
       }
       cnn.processDatasetRepeatTest(validationSet, batchSize,1,"kaggleDiabetes1.predictions","","confusionMatrix1.train"); //Monitor progress during training
     }
-    cnn.processDatasetRepeatTest(validationSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.validation","","confusionMatrix1.validation");
-    SpatiallySparseDataset trainSetAsTestSet=KDRTrainSet(dirName);trainSetAsTestSet.type=TESTBATCH;
-    cnn.processDatasetRepeatTest(trainSetAsTestSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.train","","confusionMatrix1.train");
-    cnn.processDatasetRepeatTest(testSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.test");
+    //cnn.processDatasetRepeatTest(validationSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.validation","","confusionMatrix1.validation");
+    //SpatiallySparseDataset trainSetAsTestSet=KDRTrainSet(dirName);trainSetAsTestSet.type=TESTBATCH;
+    //cnn.processDatasetRepeatTest(trainSetAsTestSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.train","","confusionMatrix1.train");
+    //cnn.processDatasetRepeatTest(testSet, batchSize,12,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes1_epoch65.test");
   }
 }
