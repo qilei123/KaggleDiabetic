@@ -6,7 +6,7 @@
 
 SpatiallySparseDataset KDRTrainSet(std::string dirName) {
   SpatiallySparseDataset dataset;
-  dataset.name="DR train minus val";
+  dataset.name="DR train set";
   std::cout << "Loading "<< dataset.name<<"\n";
   dataset.type=TRAINBATCH;
   dataset.nFeatures=3;
@@ -14,9 +14,9 @@ SpatiallySparseDataset KDRTrainSet(std::string dirName) {
 
   std::string imageName;
   int cl;
-  std::ifstream file("/home/ben/Archive/Datasets/kaggleDiabeticRetinopathy/train_minus_val_set");
+  std::ifstream file(dirName+"train.ls");
   while (file >> imageName >> cl) {
-    std::string filename=dirName+imageName+std::string(".jpeg");
+    std::string filename=dirName+std::string("train_b/")+imageName;
     if(globVector(filename).size()==1) {
       OpenCVPicture*  pic = new OpenCVPicture(filename,-1,128,cl);
       dataset.pictures.push_back(pic);
@@ -34,9 +34,9 @@ SpatiallySparseDataset KDRValidationSet(std::string dirName) {
 
   std::string imageName;
   int cl;
-  std::ifstream file("/home/ben/Archive/Datasets/kaggleDiabeticRetinopathy/val_set");
+  std::ifstream file(dirName+"train.ls");
   while (file >> imageName >> cl) {
-    std::string filename=dirName+imageName+std::string(".jpeg");
+    std::string filename=dirName+std::string("val_b/")+imageName;
     if(globVector(filename).size()==1) {
       OpenCVPicture*  pic = new OpenCVPicture(filename,-1,128,cl);
       dataset.pictures.push_back(pic);

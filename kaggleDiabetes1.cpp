@@ -6,8 +6,8 @@
 int epoch=0;
 int cudaDevice=-1; //PCI bus ID, -1 for default GPU
 int batchSize=5;
-std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/train_b/");
-std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/val_b/");
+std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/");
+std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/");
 
 Picture* OpenCVPicture::distort(RNG& rng, batchType type) {
   OpenCVPicture* pic=new OpenCVPicture(*this);
