@@ -60,7 +60,7 @@ Imagenet::Imagenet
 }
 
 int main() {
-  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2";
+  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2/kd1/DiabeteClassifier_v2";
   SpatiallySparseDataset trainSet=KDRTrainSet(dirName);
   SpatiallySparseDataset validationSet=KDRValidationSet(dirNameTest);
   //SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);

@@ -7,7 +7,7 @@ int epoch=0;
 int cudaDevice=-1; //PCI bus ID, -1 for default GPU
 int batchSize=1;
 std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/train_b/");
-std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/val_b");
+std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/val_b/");
 
 Picture* OpenCVPicture::distort(RNG& rng, batchType type) {
   OpenCVPicture* pic=new OpenCVPicture(*this);
@@ -52,7 +52,7 @@ Imagenet::Imagenet
 }
 
 int main() {
-  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2";
+  std::string baseName="/data0/qilei_chen/AI_EYE/binary_2/kd1/DiabeteClassifier_v3";
   SpatiallySparseDataset trainSet=KDRTrainSet(dirName);
   SpatiallySparseDataset validationSet=KDRValidationSet(dirNameTest);
   //SpatiallySparseDataset testSet=KDRTestSet(dirNameTest);
@@ -78,9 +78,9 @@ int main() {
       }
       cnn.processDatasetRepeatTest(validationSet, batchSize,1,"kaggleDiabetes3.predictions","","confusionMatrix3.train"); //Monitor progress during training
     }
-    cnn.processDatasetRepeatTest(validationSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.validation","","confusionMatrix3.validation");
-    SpatiallySparseDataset trainSetAsTestSet=KDRTrainSet(dirName);trainSetAsTestSet.type=TESTBATCH;
-    cnn.processDatasetRepeatTest(trainSetAsTestSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.train","","confusionMatrix3.train");
-    cnn.processDatasetRepeatTest(testSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.test");
+    //cnn.processDatasetRepeatTest(validationSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.validation","","confusionMatrix3.validation");
+    //SpatiallySparseDataset trainSetAsTestSet=KDRTrainSet(dirName);trainSetAsTestSet.type=TESTBATCH;
+    //cnn.processDatasetRepeatTest(trainSetAsTestSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.train","","confusionMatrix3.train");
+    //cnn.processDatasetRepeatTest(testSet, batchSize,6,"Data/kaggleDiabeticRetinopathy/kaggleDiabeticRetinopathyCompetitionModelFiles/kaggleDiabetes3_epoch46.test");
   }
 }
