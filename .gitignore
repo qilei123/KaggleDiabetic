@@ -17,3 +17,4 @@ kagglePlanktonQuick
 *.features
 cifar10indexLearning
 old/
+git_push.sh
