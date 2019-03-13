@@ -4,7 +4,7 @@
 #include <string>
 
 int epoch=0;
-int cudaDevice=-1; //PCI bus ID, -1 for default GPU
+int cudaDevice=12; //PCI bus ID, -1 for default GPU
 int batchSize=1;
 std::string dirName("/data0/qilei_chen/AI_EYE/binary_2/");
 std::string dirNameTest("/data0/qilei_chen/AI_EYE/binary_2/");
@@ -80,7 +80,7 @@ int main() {
     for (epoch++;epoch<=84;epoch++) {
       std::cout <<"epoch: " << epoch << std::endl;
       for (int i=0;i<3;++i) {
-        SpatiallySparseDataset trainSubset=trainSet.subset(12000);
+        SpatiallySparseDataset trainSubset=trainSet.subset(25000);
         cnn.processDataset(trainSubset, batchSize,0.003*exp(-epoch*0.03),0.999);
         cnn.saveWeights(baseName,epoch);
       }
